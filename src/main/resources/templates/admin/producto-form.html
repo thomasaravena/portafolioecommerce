@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{admin/fragments :: head}"></th:block>
+    <title>Neon Admin | Formulario</title>
+    <style>
+        .form-control {
+            background: #111 !important;
+            border: 1px solid #444 !important;
+            color: #ffffff !important;
+            padding: 10px;
+        }
+        .form-control:focus {
+            background: #151515 !important;
+            border-color: var(--neon-blue) !important;
+            box-shadow: 0 0 10px var(--neon-blue) !important;
+        }
+        label { 
+            font-family: 'Orbitron'; 
+            font-size: 0.85rem; 
+            color: var(--neon-blue) !important; 
+            margin-top: 15px; 
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
+        }
+        .error-msg {
+            color: #ff3131;
+            font-size: 0.75rem;
+            font-family: 'Orbitron';
+            margin-top: 5px;
+        }
+        ::placeholder { color: #777 !important; }
+        
+        .btn-neon-blue {
+            border: 2px solid var(--neon-blue) !important;
+            color: #ffffff !important;
+            background: transparent;
+            font-family: 'Orbitron';
+            transition: 0.3s;
+        }
+        .btn-neon-blue:hover {
+            background: var(--neon-blue) !important;
+            color: #000 !important;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{admin/fragments :: sidebar}"></div>
+
+    <main class="main-content">
+        <div class="container" style="max-width: 700px;">
+            <h2 class="neon-text-purple mb-4" style="font-family: 'Orbitron'; letter-spacing: 2px; text-shadow: 0 0 10px var(--neon-purple);">
+                [[${producto.id == null ? 'REGISTRAR MOJITO' : 'EDITAR MOJITO'}]]
+            </h2>
+            
+            <div class="neon-card p-4">
+                <form th:action="@{/admin/productos/guardar}" th:object="${producto}" method="post">
+                    <input type="hidden" th:field="*{id}">
+
+                    <label>NOMBRE DEL SABOR</label>
+                    <input type="text" th:field="*{nombre}" class="form-control" placeholder="Ej: Mojito Berries" required minlength="3" maxlength="50">
+                    <div class="error-msg" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+
+                    <label>DESCRIPCIÓN</label>
+                    <textarea th:field="*{descripcion}" class="form-control" rows="3" placeholder="Ingredientes o notas de cata..." required></textarea>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>PRECIO UNITARIO ($)</label>
+                            <input type="number" th:field="*{precio}" class="form-control" required min="1">
+                        </div>
+                        <div class="col-md-6">
+                            <label>STOCK DISPONIBLE</label>
+                            <input type="number" th:field="*{stock}" class="form-control" required min="0">
+                        </div>
+                    </div>
+
+                    <label>URL DE LA IMAGEN (LINK PÚBLICO)</label>
+                    <input type="url" th:field="*{imagenUrl}" class="form-control" placeholder="https://ejemplo.com/mojito.jpg" required>
+
+                    <div class="mt-5 d-flex justify-content-between align-items-center">
+                        <a th:href="@{/admin/productos}" class="text-white-50 text-decoration-none"> <i class="fa-solid fa-arrow-left"></i> VOLVER</a>
+                        <button type="submit" class="btn btn-neon-blue px-5">
+                            [[${producto.id == null ? 'CREAR MOJITO' : 'GUARDAR CAMBIOS'}]]
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

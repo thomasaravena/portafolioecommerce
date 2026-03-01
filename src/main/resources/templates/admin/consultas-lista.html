@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{admin/fragments :: head}"></th:block>
+    <title>Neon Admin | Consultas</title>
+    <style>
+        /* --- FONDO GENERAL --- */
+        body { 
+            background-color: #050505 !important; 
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .neon-card {
+            background: rgba(10, 10, 10, 0.95) !important;
+            border: 1px solid #222;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        /* --- TABLA --- */
+        .table {
+            background-color: transparent !important;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .table thead th {
+            color: var(--neon-green) !important;
+            font-family: 'Orbitron';
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            border: none !important;
+            padding-bottom: 15px;
+        }
+
+        /* --- FILAS CLARAS (Mismo criterio que productos-lista) --- */
+        .table tbody tr {
+            background: #e0e0e0 !important; /* Gris muy claro/blanco para que resalte el negro */
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .table tbody tr:hover {
+            background: #ffffff !important;
+            transform: scale(1.005);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .table td {
+            border: none !important;
+            padding: 15px !important;
+            vertical-align: middle;
+        }
+
+        /* --- ESTILOS DE TEXTO --- */
+        
+        /* 1. Cliente en NEGRO (Resalta sobre el fondo claro de la fila) */
+        .sender-name-black {
+            color: #000000 !important;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        /* 2. Email / Asunto en MORADO OSCURO */
+        .detail-purple {
+            color: #6a0dad !important; /* Morado más oscuro para legibilidad en fondo claro */
+            font-family: 'Orbitron';
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* 3. Fecha en VERDE NEÓN (Igual que los títulos) */
+        .date-neon {
+            color: #008000 !important; /* Verde oscuro/fuerte para contrastar con el fondo claro */
+            font-weight: bold;
+            font-family: 'Orbitron';
+            font-size: 0.85rem;
+        }
+
+        /* Vista previa del mensaje en gris oscuro */
+        .message-text {
+            color: #333333;
+            font-size: 0.9rem;
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        /* Botón de acción circular */
+        .btn-action-delete {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ff3131 !important;
+            color: #ff3131 !important;
+            background: transparent;
+            transition: 0.3s;
+        }
+
+        .btn-action-delete:hover {
+            background: #ff3131 !important;
+            color: white !important;
+            box-shadow: 0 0 10px #ff3131;
+        }
+    </style>
+</head>
+<body>
+
+    <div th:replace="~{admin/fragments :: sidebar}"></div>
+
+    <main class="main-content">
+        <div class="container-fluid">
+            <h2 class="neon-text-purple mb-5 fw-bold" style="font-family: 'Orbitron'; letter-spacing: 2px;">
+                INBOX DE CONSULTAS
+            </h2>
+
+            <div class="neon-card">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>FECHA</th>
+                                <th>CLIENTE</th>
+                                <th>EMAIL / ASUNTO</th>
+                                <th>MENSAJE</th>
+                                <th class="text-center">ACCIÓN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="c : ${consultas}">
+                                <td>
+                                    <span class="date-neon" th:text="${#temporals.format(c.fechaEnvio, 'dd/MM HH:mm')}"></span>
+                                </td>
+                                <td>
+                                    <span class="sender-name-black" th:text="${c.nombre}"></span>
+                                </td>
+                                <td>
+                                    <div class="detail-purple" th:text="${c.asunto}"></div>
+                                    <small class="fw-bold" style="color: #444;" th:text="${c.email}"></small>
+                                </td>
+                                <td>
+                                    <div class="message-text" th:text="${c.mensaje}"></div>
+                                </td>
+                                <td class="text-center">
+                                    <a th:href="@{/admin/consultas/eliminar/{id}(id=${c.id})}" 
+                                       class="btn btn-action-delete"
+                                       onclick="return confirm('¿Seguro que deseas eliminar esta consulta?')">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div th:if="${#lists.isEmpty(consultas)}" class="text-center py-5">
+                    <p class="text-muted" style="font-family: 'Orbitron';">No hay mensajes en el inbox.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

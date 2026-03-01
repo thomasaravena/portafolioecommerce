@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>¡Pedido Confirmado! | Empeda2 Drinks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body { background-color: #050505; color: white; font-family: 'Poppins', sans-serif; }
+        .success-card {
+            background: #111;
+            border: 2px solid #39ff14;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.2);
+            padding: 4rem 2rem;
+            margin-top: 80px;
+        }
+        .neon-text-green { color: #39ff14; text-shadow: 0 0 10px #39ff14; font-family: 'Orbitron'; }
+        .order-number { background: #222; padding: 15px; border-radius: 10px; font-family: 'Orbitron'; color: #00f3ff; border: 1px solid #333; }
+        .btn-neon {
+            border: 2px solid #00f3ff;
+            color: #00f3ff;
+            font-family: 'Orbitron';
+            transition: 0.3s;
+        }
+        .btn-neon:hover { background: #00f3ff; color: black; box-shadow: 0 0 20px #00f3ff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="success-card">
+                    <i class="bi bi-check-circle-fill display-1 neon-text-green"></i>
+                    <h1 class="display-5 fw-bold mt-4 neon-text-green">¡PREPARANDO TU DOSIS!</h1>
+                    
+                    <p class="lead mt-3 text-white">Tu pedido ha sido recibido con éxito en la barra de <span class="fw-bold" style="color: var(--neon-blue);">Empeda2 Drinks</span>.</p>
+                    
+                    <div class="my-5">
+                        <span class="text-white-50 text-uppercase small d-block mb-2">Número de Orden:</span>
+                        <h3 class="order-number d-inline-block px-4" th:text="${nroOrden}">ORD-001</h3>
+                    </div>
+
+                    <div class="mb-5">
+                        <p class="mb-1 text-white-50">Total de la operación:</p>
+                        <h2 class="neon-text-green" th:text="'$' + ${#numbers.formatInteger(total, 0, 'POINT')}"></h2>
+                    </div>
+
+                    <p class="small text-white-50 mb-4">Te notificaremos cuando tus tragos estén listos para retiro.</p>
+                    <a th:href="@{/productos}" class="btn btn-neon btn-lg rounded-pill px-5">VOLVER A LA CARTA</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

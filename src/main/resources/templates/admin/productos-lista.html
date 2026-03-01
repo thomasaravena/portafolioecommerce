@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{admin/fragments :: head}"></th:block>
+    <title>Neon Admin | Inventario</title>
+    <style>
+        /* --- FONDO GENERAL --- */
+        body { 
+            background-color: #050505 !important; 
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .neon-card {
+            background: rgba(10, 10, 10, 0.95) !important;
+            border: 1px solid #222;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        /* --- TABLA --- */
+        .table {
+            background-color: transparent !important;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .table thead th {
+            color: var(--neon-green) !important;
+            font-family: 'Orbitron';
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            border: none !important;
+            padding-bottom: 15px;
+        }
+
+        /* Filas con fondo gris para que el texto negro resalte */
+        .table tbody tr {
+            background: #1a1a1a !important; 
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .table tbody tr:hover {
+            background: #222222 !important;
+            transform: scale(1.005);
+        }
+
+        .table td {
+            border: none !important;
+            padding: 12px 15px !important;
+            vertical-align: middle;
+        }
+
+        /* --- ESTILOS DE TEXTO SOLICITADOS --- */
+        
+        /* 1. Nombre en NEGRO */
+        .product-name-black {
+            color: #000000 !important;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            /* Un sutil sombreado gris para dar legibilidad sobre el fondo oscuro */
+            text-shadow: 0.5px 0.5px 0px rgba(255,255,255,0.1); 
+        }
+
+        /* 2. Precio en MORADO OSCURO */
+        .price-purple {
+            color: #8b00ff !important; /* Morado intenso/oscuro */
+            font-family: 'Orbitron';
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(139, 0, 255, 0.3);
+        }
+
+        /* 3. Stock en VERDE NEÓN (igual que los títulos) */
+        .stock-neon {
+            color: var(--neon-green) !important;
+            font-weight: bold;
+            font-family: 'Orbitron';
+        }
+
+        .stock-low {
+            color: #ff3131 !important;
+            font-weight: bold;
+        }
+
+        /* Imagen con borde coincidente */
+        .img-thumb {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--neon-blue);
+        }
+
+        /* --- BOTÓN NUEVO MOJITO --- */
+        .btn-neon-blue {
+            background: transparent;
+            color: var(--neon-blue) !important;
+            border: 2px solid var(--neon-blue);
+            font-family: 'Orbitron';
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-neon-blue:hover {
+            background: var(--neon-blue);
+            color: #000 !important;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .btn-action {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{admin/fragments :: sidebar}"></div>
+
+    <main class="main-content">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h2 class="neon-text-purple fw-bold" style="font-family: 'Orbitron'; letter-spacing: 2px;">
+                    GESTIÓN DE STOCK
+                </h2>
+                <a th:href="@{/admin/productos/nuevo}" class="btn btn-neon-blue px-4 py-2">
+                    <i class="fa-solid fa-plus me-2"></i>NUEVO MOJITO
+                </a>
+            </div>
+
+            <div class="neon-card">
+                <div class="table-responsive">
+                    <table class="table align-middle text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>IMAGEN</th>
+                                <th>PRODUCTO</th>
+                                <th>PRECIO</th>
+                                <th>STOCK</th>
+                                <th class="text-center">ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="p : ${productos}">
+                                <td>
+                                    <img th:src="${p.imagenUrl}" class="img-thumb" alt="mojito">
+                                </td>
+                                <td>
+                                    <span class="product-name-black" th:text="${p.nombre}"></span>
+                                </td>
+                                <td>
+                                    <span class="price-purple" th:text="'$' + ${p.precio}"></span>
+                                </td>
+                                <td>
+                                    <span th:class="${p.stock < 5} ? 'stock-low' : 'stock-neon'" 
+                                          th:text="${p.stock} + ' un.'"></span>
+                                </td>
+                                <td class="text-center">
+                                    <a th:href="@{/admin/productos/editar/{id}(id=${p.id})}" class="btn btn-outline-info btn-action me-2">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                    <a th:href="@{/admin/productos/eliminar/{id}(id=${p.id})}" class="btn btn-outline-danger btn-action" 
+                                       onclick="return confirm('¿Seguro que deseas eliminar este producto?')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
