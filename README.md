@@ -56,7 +56,7 @@ Haz clic en la imagen a continuación para ver el video con la funcionalidad com
 Para facilitar la evaluación de roles y permisos, el sistema inicializa los siguientes usuarios automáticamente:
 Rol	Usuario (Email)	Contraseña
 ADMINISTRADOR	sebastian@bootcamp.cl	admin123
-CLIENTE	thomas@bootcamp.cl	123
+CLIENTE	debes iniciar sesión, con correo y contraseña en LOGIN.
 🛠️ Alcance Técnico (Rúbrica)
 1. Autenticación y Roles
 
