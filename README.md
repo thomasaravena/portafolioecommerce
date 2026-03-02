@@ -56,7 +56,7 @@ Haz clic en la imagen a continuación para ver el video con la funcionalidad com
 Para facilitar la evaluación de roles y permisos, el sistema inicializa los siguientes usuarios automáticamente:
 Rol	Usuario (Email)	Contraseña
 ADMINISTRADOR	sebastian@bootcamp.cl	admin123
-CLIENTE	debes iniciar sesión, con correo y contraseña en LOGIN.
+CLIENTE	debes entrar al registro del LOGIN y crear usuario con correo y contraseña. Luego de crear la base de datos y cargar los productos de import.sql .
 🛠️ Alcance Técnico (Rúbrica)
 1. Autenticación y Roles
 
